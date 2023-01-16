@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             title: 'Yatra',
             theme: ThemeData(
                 scaffoldBackgroundColor: MyColor.backgroundColor,
-                appBarTheme: AppBarTheme(
+                appBarTheme: const AppBarTheme(
                     backgroundColor: MyColor.backgroundColor,
                     elevation: 0,
                     iconTheme: IconThemeData(color: MyColor.greyColor)),

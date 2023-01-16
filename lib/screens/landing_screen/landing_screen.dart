@@ -10,7 +10,6 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('hello');
     const List<String> imagePaths = [
       "assets/1.jpeg",
       "assets/2.jpeg",
@@ -57,7 +56,7 @@ class LandingScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(context, MyRoutes.loginRoute);
                         },
-                        radius: 10,
+                        radius: 30,
                       )
                     ],
                   )

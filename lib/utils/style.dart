@@ -11,7 +11,8 @@ class Styles {
         color: Colors.black.withOpacity(0.8)),
     bodyText1:
         GoogleFonts.poppins(fontSize: 24.sp, fontWeight: FontWeight.bold),
-    headline6: const TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+    headline6:
+        GoogleFonts.poppins(fontSize: 18.sp, fontWeight: FontWeight.bold),
     bodyText2: GoogleFonts.poppins(fontSize: 13.sp, color: MyColor.greyColor),
   );
 }
