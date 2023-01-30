@@ -1,6 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yatra/utils/routes.dart';
+import 'package:yatra/widget/background.dart';
 
 const colorizeColors = [Colors.yellow, Colors.amber, Colors.black];
 
@@ -17,24 +19,45 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool selected = true;
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1), (() {
+      setState(() {
+        selected = false;
+      });
+    }));
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 250.0,
-          child: AnimatedTextKit(
-            totalRepeatCount: 3,
-            onFinished: (() =>
-                Navigator.pushNamed(context, MyRoutes.landRoute)),
-            animatedTexts: [
-              ColorizeAnimatedText(
-                'Yatra',
-                textStyle: colorizeTextStyle,
-                colors: colorizeColors,
+    return customBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: GestureDetector(
+            onTap: (() {
+              setState(() {
+                selected = !selected;
+              });
+            }),
+            child: AnimatedContainer(
+              height: selected ? 20.h : 96.h,
+              width: selected ? 20.h : 235.5.w,
+              duration: const Duration(seconds: 2),
+              onEnd: (() {
+                Future.delayed(
+                    const Duration(seconds: 2),
+                    (() => Navigator.popAndPushNamed(
+                        context, MyRoutes.landRoute)));
+              }),
+              child: Image.asset(
+                "assets/logo.png",
               ),
-            ],
-            isRepeatingAnimation: true,
+            ),
           ),
         ),
       ),

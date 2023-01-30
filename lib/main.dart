@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:yatra/screens/home_screen/home_screen.dart';
 import 'package:yatra/screens/landing_screen/landing_screen.dart';
+import 'package:yatra/screens/location_scree/location_screen.dart';
 import 'package:yatra/screens/login_screen/login_screen.dart';
 import 'package:yatra/screens/splash_screen/splash_screen.dart';
+import 'package:yatra/services/location_services.dart';
 import 'package:yatra/utils/colors.dart';
 import 'package:yatra/utils/routes.dart';
 import 'package:yatra/utils/style.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => LocationService())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(360, 690),
+        designSize: const Size(430, 932),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
@@ -44,7 +52,8 @@ class MyApp extends StatelessWidget {
               MyRoutes.splashScreenRoute: (context) => const SplashScreen(),
               MyRoutes.landRoute: ((context) => const LandingScreen()),
               MyRoutes.loginRoute: (context) => const LoginScreen(),
-              MyRoutes.homeRoute: ((context) => const HomeScreen())
+              MyRoutes.homeRoute: ((context) => HomeScreen()),
+              MyRoutes.locationRoute: ((context) => const LocationScreen()),
             },
           );
         });

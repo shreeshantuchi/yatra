@@ -9,10 +9,14 @@ class Styles {
         fontSize: 40.0,
         fontWeight: FontWeight.bold,
         color: Colors.black.withOpacity(0.8)),
-    bodyText1:
-        GoogleFonts.poppins(fontSize: 24.sp, fontWeight: FontWeight.bold),
-    headline6:
-        GoogleFonts.poppins(fontSize: 18.sp, fontWeight: FontWeight.bold),
-    bodyText2: GoogleFonts.poppins(fontSize: 13.sp, color: MyColor.greyColor),
+    bodyText1: GoogleFonts.inter(
+        fontSize: 15.sp,
+        color: MyColor.whiteColor,
+        fontWeight: FontWeight.w400),
+    headline6: GoogleFonts.inter(fontSize: 18.sp, fontWeight: FontWeight.bold),
+    bodyText2: GoogleFonts.inter(
+        fontSize: 18.sp,
+        color: MyColor.whiteColor,
+        fontWeight: FontWeight.w600),
   );
 }

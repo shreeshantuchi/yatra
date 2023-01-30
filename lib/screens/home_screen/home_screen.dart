@@ -25,20 +25,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.h),
-        child: Column(
-          children: [
-            WelcomeHeadingText(),
-            SizedBox(height: 20.h),
-            const SearchForm(),
-            SizedBox(height: 20.h),
-            HomeCarousel(imagePaths: widget.imagePaths)
-          ],
-        ),
-      ),
-    );
+    return context.watch<LocationService>().placemark.isNotEmpty
+        ? Scaffold(
+            body: Padding(
+              padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.h),
+              child: Column(
+                children: [
+                  WelcomeHeadingText(),
+                  SizedBox(height: 20.h),
+                  const SearchForm(),
+                  SizedBox(height: 20.h),
+                  HomeCarousel(imagePaths: widget.imagePaths)
+                ],
+              ),
+            ),
+          )
+        : Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
   }
 }
 
@@ -137,10 +141,8 @@ class _CurrentLcoationState extends State<CurrentLcoation> {
           SizedBox(
             width: 5.w,
           ),
-          context.watch<LocationService>().placemark.isNotEmpty
-              ? Text(
-                  "${context.watch<LocationService>().placemark.last.locality} , ${context.watch<LocationService>().placemark.last.country}")
-              : CircularProgressIndicator(),
+          Text(
+              "${context.watch<LocationService>().placemark.last.locality} , ${context.watch<LocationService>().placemark.last.country}")
         ],
       ),
     );
