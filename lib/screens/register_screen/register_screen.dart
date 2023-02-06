@@ -6,9 +6,14 @@ import 'package:yatra/utils/routes.dart';
 import 'package:yatra/widget/background.dart';
 import 'package:yatra/widget/custom-button/custom_button.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return customBackground(
@@ -73,35 +78,26 @@ class LoginScreen extends StatelessWidget {
                     decoration: FormStyle.signUpStyle(
                         context: context, hintText: "password"),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: (() => Navigator.pushNamed(
-                            context, MyRoutes.registerRoute)),
-                        child: Text(
-                          "Don't have an account? \nRegister",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(color: MyColor.whiteColor),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 30.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          child: Text(
+                            "Already have an account? \nLogin",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: MyColor.whiteColor),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20.h),
-                        child: Text(
-                          "Forgot Password?",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(color: MyColor.whiteColor),
-                        ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                   CustomButton(
                     radius: 30.sp,
-                    text: "Conitinue",
+                    text: "Sign Up",
                     textColor: MyColor.blackColor,
                     color: MyColor.whiteColor.withOpacity(0.5),
                     onTap: () =>
@@ -109,50 +105,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 25.h,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 1.h,
-                        width: 150.w,
-                        color: MyColor.whiteColor.withOpacity(0.5),
-                      ),
-                      Text(" OR ",
-                          style: Theme.of(context).textTheme.bodyText2),
-                      Container(
-                        height: 1.h,
-                        width: 150.w,
-                        color: MyColor.whiteColor.withOpacity(0.5),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  CustomButton(
-                    imgIcon: "assets/google.png",
-                    radius: 30.sp,
-                    borderEnabled: true,
-                    text: "Log in with Google",
-                    textColor: MyColor.whiteColor,
-                    color: Colors.transparent,
-                    onTap: () =>
-                        Navigator.pushNamed(context, MyRoutes.homeRoute),
-                  ),
-                  SizedBox(
-                    height: 48.h,
-                  ),
-                  CustomButton(
-                    imgIcon: "assets/apple.png",
-                    borderEnabled: true,
-                    radius: 30.sp,
-                    text: "Sign up with Apple",
-                    textColor: MyColor.whiteColor,
-                    color: Colors.transparent,
-                    onTap: () =>
-                        Navigator.pushNamed(context, MyRoutes.homeRoute),
                   ),
                 ],
               ),

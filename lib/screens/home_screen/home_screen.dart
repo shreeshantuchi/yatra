@@ -28,19 +28,73 @@ class _HomeScreenState extends State<HomeScreen> {
     return context.watch<LocationService>().placemark.isNotEmpty
         ? Scaffold(
             body: Padding(
-              padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.h),
-              child: Column(
-                children: [
-                  WelcomeHeadingText(),
-                  SizedBox(height: 20.h),
-                  const SearchForm(),
-                  SizedBox(height: 20.h),
-                  HomeCarousel(imagePaths: widget.imagePaths)
-                ],
+              padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 30.h),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const WelcomeHeadingText(),
+                    SizedBox(height: 20.h),
+                    const SearchForm(),
+                    SizedBox(height: 20.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Popular",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3!
+                                .copyWith(color: MyColor.blackColor),
+                          ),
+                          Text(
+                            "See all",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3!
+                                .copyWith(
+                                    color: MyColor.greyColor, fontSize: 18.sp),
+                          ),
+                        ],
+                      ),
+                    ),
+                    HomeCarousel(imagePaths: widget.imagePaths),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 30.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Perfect for you",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3!
+                                .copyWith(color: MyColor.blackColor),
+                          ),
+                          Text(
+                            "See all",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3!
+                                .copyWith(
+                                    color: MyColor.greyColor, fontSize: 18.sp),
+                          ),
+                        ],
+                      ),
+                    ),
+                    HomeCarousel(
+                      height: 300,
+                      imagePaths: widget.imagePaths,
+                      width: MediaQuery.of(context).size.width / 1.12,
+                      scrollDirection: Axis.vertical,
+                    ),
+                  ],
+                ),
               ),
             ),
           )
-        : Scaffold(
+        : const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
   }
@@ -48,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class WelcomeHeadingText extends StatelessWidget {
   final String user;
-  WelcomeHeadingText({super.key, this.user = "Nancy"});
+  const WelcomeHeadingText({super.key, this.user = "Nancy"});
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +167,10 @@ class SearchForm extends StatelessWidget {
             prefixIcon: const Icon(PhosphorIcons.magnifyingGlassBold),
             contentPadding: EdgeInsets.symmetric(vertical: 10.w),
             hintText: "Search",
-            hintStyle: Theme.of(context).textTheme.bodyText2,
+            hintStyle: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(color: MyColor.blackColor),
             border: InputBorder.none),
       ),
     );
@@ -142,7 +199,12 @@ class _CurrentLcoationState extends State<CurrentLcoation> {
             width: 5.w,
           ),
           Text(
-              "${context.watch<LocationService>().placemark.last.locality} , ${context.watch<LocationService>().placemark.last.country}")
+            "${context.watch<LocationService>().placemark.last.locality} , ${context.watch<LocationService>().placemark.last.country}",
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(color: MyColor.blackColor),
+          )
         ],
       ),
     );

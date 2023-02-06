@@ -1,13 +1,21 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:yatra/services/location_services.dart';
+import 'package:yatra/utils/colors.dart';
 
 class HomeCarousel extends StatefulWidget {
   final List imagePaths;
-  const HomeCarousel({super.key, required this.imagePaths});
+  final double width;
+  final double height;
+  const HomeCarousel(
+      {super.key,
+      required this.imagePaths,
+      this.width = 150,
+      this.scrollDirection = Axis.horizontal,
+      this.height = 150});
+  final Axis scrollDirection;
 
   @override
   State<HomeCarousel> createState() => _HomeCarouselState();
@@ -17,68 +25,68 @@ class _HomeCarouselState extends State<HomeCarousel> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(),
-      height: 200.h,
+      height: widget.height.h,
       width: MediaQuery.of(context).size.width.w,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
           shrinkWrap: true,
+          scrollDirection: widget.scrollDirection,
           itemCount: widget.imagePaths.length,
           itemBuilder: ((context, index) {
-            return Cards(imagePath: widget.imagePaths[index]);
+            return Cards(
+              height: widget.height,
+              imagePath: widget.imagePaths[index],
+              width: widget.width,
+            );
           })),
     );
   }
 }
 
 class Cards extends StatelessWidget {
-  const Cards({super.key, required this.imagePath});
+  const Cards(
+      {super.key,
+      required this.imagePath,
+      required this.width,
+      required this.height});
   final String imagePath;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 5.w,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
       child: Material(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10.sp),
+        borderRadius: BorderRadius.circular(20.sp),
         elevation: 1,
-        child: Container(
-          padding: EdgeInsets.all(10.sp),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.sp),
-                child: Image.asset(
-                  imagePath,
-                  height: 100.h,
-                  width: 150.w,
-                  fit: BoxFit.cover,
-                ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.sp),
+              child: Image.asset(
+                imagePath,
+                height: 250.h,
+                width: width.w,
+                fit: BoxFit.cover,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Swayambhu"),
-                  Text("4.5"),
+                  Text(
+                    "${context.watch<LocationService>().placemark.last.locality} , \n${context.watch<LocationService>().placemark.last.country}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(color: MyColor.whiteColor),
+                  )
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(PhosphorIcons.mapPin),
-                  Text(context
-                      .watch<LocationService>()
-                      .placemark
-                      .last
-                      .locality
-                      .toString()),
-                ],
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

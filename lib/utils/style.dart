@@ -14,6 +14,7 @@ class Styles {
         color: MyColor.whiteColor,
         fontWeight: FontWeight.w400),
     headline6: GoogleFonts.inter(fontSize: 18.sp, fontWeight: FontWeight.bold),
+    headline3: GoogleFonts.inter(fontSize: 30.sp, fontWeight: FontWeight.bold),
     bodyText2: GoogleFonts.inter(
         fontSize: 18.sp,
         color: MyColor.whiteColor,

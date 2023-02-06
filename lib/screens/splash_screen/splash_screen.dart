@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Future.delayed(
                     const Duration(seconds: 2),
                     (() => Navigator.popAndPushNamed(
-                        context, MyRoutes.landRoute)));
+                        context, MyRoutes.loginRoute)));
               }),
               child: Image.asset(
                 "assets/logo.png",

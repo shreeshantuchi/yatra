@@ -11,6 +11,8 @@ import 'package:yatra/utils/colors.dart';
 import 'package:yatra/utils/routes.dart';
 import 'package:yatra/utils/style.dart';
 
+import 'screens/register_screen/register_screen.dart';
+
 void main() {
   runApp(
     MultiProvider(
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
               MyRoutes.loginRoute: (context) => const LoginScreen(),
               MyRoutes.homeRoute: ((context) => HomeScreen()),
               MyRoutes.locationRoute: ((context) => const LocationScreen()),
+              MyRoutes.registerRoute: ((context) => const RegisterScreen()),
             },
           );
         });

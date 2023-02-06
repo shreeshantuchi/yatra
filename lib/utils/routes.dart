@@ -5,4 +5,5 @@ class MyRoutes {
   static String registerAccountRoute = '/registerAccount';
   static String landRoute = '/land';
   static String locationRoute = '/location';
+  static String registerRoute = '/register';
 }
