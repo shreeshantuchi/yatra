@@ -9,6 +9,7 @@ import 'package:yatra/screens/landing_screen/landing_screen.dart';
 import 'package:yatra/screens/location_scree/location_screen.dart';
 import 'package:yatra/screens/login_screen/login_screen.dart';
 import 'package:yatra/screens/splash_screen/splash_screen.dart';
+import 'package:yatra/screens/tab_screen/tab-screen.dart';
 import 'package:yatra/services/auth_services.dart';
 import 'package:yatra/services/location_services.dart';
 import 'package:yatra/utils/colors.dart';
@@ -112,6 +113,12 @@ class MyApp extends StatelessWidget {
                 case MyRoutes.registerRoute:
                   return PageTransition(
                       child: const RegisterScreen(),
+                      type: PageTransitionType.rightToLeftWithFade,
+                      settings: settings,
+                      duration: const Duration(seconds: smallDuration));
+                case MyRoutes.tabRoute:
+                  return PageTransition(
+                      child: const TabScreen(),
                       type: PageTransitionType.rightToLeftWithFade,
                       settings: settings,
                       duration: const Duration(seconds: smallDuration));

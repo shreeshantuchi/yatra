@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yatra/screens/tab_screen/tab-screen.dart';
+
 import 'package:yatra/services/auth_services.dart';
 import 'package:yatra/utils/colors.dart';
 import 'package:yatra/utils/form_style.dart';
 import 'package:yatra/utils/routes.dart';
-import 'package:yatra/widget/alert_dialog.dart';
+
 import 'package:yatra/widget/background.dart';
 import 'package:yatra/widget/custom-button/custom_button.dart';
 
@@ -133,7 +134,8 @@ class LoginScreen extends StatelessWidget {
                                 password: _passwordController.text);
 
                             if (jwt != null) {
-                              Navigator.pushNamed(context, MyRoutes.homeRoute);
+                              print("in");
+                              Navigator.pushNamed(context, MyRoutes.tabRoute);
                             } else {
                               print("error");
                             }

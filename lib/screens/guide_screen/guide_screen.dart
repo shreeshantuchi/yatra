@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:yatra/utils/colors.dart';
+import 'package:yatra/widget/background.dart';
 import 'package:yatra/widget/custom-button/custom_button.dart';
 
 List<Map<String, dynamic>> guideData = [
@@ -61,18 +62,22 @@ class GuidScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: guideData.length,
-                itemBuilder: (context, index) {
-                  return GuideCard(
-                    guide: guideData[index],
-                  );
-                })
-          ]),
+        child: customBackground(
+          child: Padding(
+            padding: EdgeInsets.all(10.sp),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: guideData.length,
+                  itemBuilder: (context, index) {
+                    return GuideCard(
+                      guide: guideData[index],
+                    );
+                  })
+            ]),
+          ),
         ),
       ),
     );
@@ -94,7 +99,7 @@ class GuideCard extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.sp)),
+                  borderRadius: BorderRadius.circular(15.sp)),
               child: Padding(
                 padding: EdgeInsets.only(left: 70.w, top: 20.h, bottom: 20.h),
                 child: Column(

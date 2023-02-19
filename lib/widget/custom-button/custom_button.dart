@@ -45,7 +45,10 @@ class CustomButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 imgIcon.isNotEmpty
-                    ? Image.asset(imgIcon)
+                    ? Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Image.asset(imgIcon),
+                      )
                     : SizedBox(
                         width: 0.w,
                       ),

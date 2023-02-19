@@ -1,4 +1,3 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -20,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TabItem currentTab = TabItem.home;
   @override
   void initState() {
     // TODO: implement initState
@@ -28,29 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<LocationService>().listenToLocationChange();
   }
 
-  List<IconData> iconList = [Icons.home, Icons.feed, Icons.person, Icons.abc];
-  String currentPage = "Page1";
-  int currentIndex = 0;
-  List<String> pageKeys = ["Page1", "Page2", "Page3", "Page4"];
-  final Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
-    "Page1": GlobalKey<NavigatorState>(),
-    "Page2": GlobalKey<NavigatorState>(),
-    "Page3": GlobalKey<NavigatorState>(),
-    "Page4": GlobalKey<NavigatorState>(),
-  };
-
-  void _selectTab(String tabItem, int index) {
-    setState(() {
-      currentPage = pageKeys[index];
-      currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return context.watch<LocationService>().placemarks.isNotEmpty
         ? Scaffold(
-            extendBody: true,
             body: Padding(
               padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 30.h),
               child: SingleChildScrollView(
@@ -179,6 +158,7 @@ class WelcomeHeadingText extends StatelessWidget {
 
               if (await context.read<AuthProvider>().storage.read(key: "jwt") ==
                   null) {
+                print("pop");
                 Navigator.pushNamedAndRemoveUntil(
                     context, MyRoutes.landRoute, (route) => false);
               }

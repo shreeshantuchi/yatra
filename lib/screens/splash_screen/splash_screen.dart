@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:yatra/screens/tab_screen/tab-screen.dart';
 import 'package:yatra/services/auth_services.dart';
 import 'package:yatra/utils/routes.dart';
 import 'package:yatra/widget/background.dart';
@@ -56,11 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           .storage
                           .read(key: "jwt") !=
                       null) {
-                    print(await context
-                        .read<AuthProvider>()
-                        .storage
-                        .read(key: "jwt"));
-                    Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
+                    Navigator.pushNamed(context, MyRoutes.tabRoute);
                   } else {
                     Navigator.pushReplacementNamed(context, MyRoutes.landRoute);
                   }

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class AuthProvider extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
 
-  String loginUrl = "http://10.0.2.2:8000/auth/jwt/create";
+  String loginUrl = "http://10.0.2.2:8000/api/user/login/";
   Future<String?> login({
     required String email,
     required String password,
@@ -13,8 +13,9 @@ class AuthProvider extends ChangeNotifier {
     try {
       var response = await http.post(Uri.parse(loginUrl),
           body: {"email": email, "password": password});
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
+        print("in");
         await storage.write(key: "jwt", value: response.body);
         return response.body;
       }
@@ -29,4 +30,4 @@ class AuthProvider extends ChangeNotifier {
 }
 
 
-//"b@gmail.com", "password": "testing321"
+//"sam@example.com, "password": "12345678"
