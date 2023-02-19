@@ -1,124 +1,133 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:yatra/widget/custom-button/custom_button.dart';
+import 'package:flutter_map/flutter_map.dart';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:yatra/location/location_provider.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key});
+  LocationScreen({Key? key}) : super(key: key);
 
   @override
-  State<LocationScreen> createState() => _LocationScreenState();
+  _LocationScreenState createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  Position? position;
-  List<Placemark> placemarks = [];
-  StreamSubscription<Position>? positionStream;
-
-  void getPlaceMark() async {
-    placemarks =
-        await placemarkFromCoordinates(position!.latitude, position!.longitude);
-    print(position);
-    print(placemarks.last.locality);
-  }
-
-  void listenToLocationChange() async {
-    LocationPermission permission;
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-    final LocationSettings locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.bestForNavigation,
-    );
-    positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((event) {
-      setState(() {
-        position = event;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    // TODO: implement dispose
-
-    positionStream?.cancel();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // TODO: implement initState
-    listenToLocationChange();
-  }
-
-  @override
-
-  /// Determine the current position of the device.
-  ///
-  /// When the location services are not enabled or permissions
-  /// are denied the `Future` will return an error.
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    // When we rreteach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final provmaps = Provider.of<ProviderMaps>(context);
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomButton(
-            text: "Get Location",
-            onTap: () async {
-              position = await _determinePosition();
-              getPlaceMark();
-              setState(() {});
-            }),
-      ],
-    ));
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        title: Text(
+          "Google Maps - Route OSRM",
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+      body: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Positioned(
+            top: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: FlutterMap(
+                options: MapOptions(
+                  onTap: ((tapPosition, point) => provmaps.addMarker(point)),
+                  center: provmaps.initialPos,
+                  zoom: 9.2,
+                ),
+                nonRotatedChildren: [
+                  AttributionWidget.defaultWidget(
+                    source: 'OpenStreetMap contributors',
+                    onSourceTapped: null,
+                  ),
+                ],
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'com.example.app',
+                  ),
+                  MarkerLayer(
+                    markers: provmaps.markers.toList(),
+                  ),
+                  PolylineLayer(
+                    polylines: provmaps.polyline.toList(),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+              bottom: 0,
+              child: Container(
+                  //color: Colors.white,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                          height: 220,
+                          width: 200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: provmaps.markers.length,
+                                  itemBuilder: (context, index) {
+                                    return InputChip(
+                                        label: Text(
+                                            provmaps.markers
+                                                    .elementAt(index)
+                                                    .point
+                                                    .latitude
+                                                    .toString()
+                                                    .substring(0, 7) +
+                                                "," +
+                                                provmaps.markers
+                                                    .elementAt(index)
+                                                    .point
+                                                    .longitude
+                                                    .toString()
+                                                    .substring(0, 7),
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        backgroundColor: index == 0
+                                            ? Colors.green
+                                            : Colors.blue,
+                                        onDeleted: () {
+                                          provmaps.cleanpoint(index);
+                                          setState(() {});
+                                        });
+                                  },
+                                ),
+                              ),
+                              Text("Distance: ${provmaps.distance}",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          )),
+                      FloatingActionButton(
+                        elevation: 1,
+                        backgroundColor: Colors.blueAccent,
+                        onPressed: provmaps.routermap,
+                        child: Icon(Icons.directions),
+                      )
+                    ],
+                  ))),
+        ],
+      ),
+    );
   }
 }

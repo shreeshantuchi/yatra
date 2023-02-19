@@ -5,9 +5,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService extends ChangeNotifier {
-  Position? _position;
-  List<Placemark> _placemarks = [];
-  List<Placemark> get placemark => _placemarks;
+  Position? position;
+  List<Placemark> placemarks = [];
 
   StreamSubscription<Position>? positionStream;
 
@@ -21,18 +20,18 @@ class LocationService extends ChangeNotifier {
         return Future.error('Location permissions are denied');
       }
     }
-    final LocationSettings locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.bestForNavigation,
-    );
+    const LocationSettings locationSettings = LocationSettings(
+        accuracy: LocationAccuracy.bestForNavigation,
+        timeLimit: Duration(hours: 1));
 
     positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((event) async {
-      _position = event;
-      _placemarks = await placemarkFromCoordinates(
-          _position!.latitude, _position!.longitude);
+      position = event;
+      placemarks = await placemarkFromCoordinates(
+          position!.latitude, position!.longitude);
+      notifyListeners();
     });
-    notifyListeners();
   }
 
   void determinePosition() async {
@@ -69,9 +68,9 @@ class LocationService extends ChangeNotifier {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    _position = await Geolocator.getCurrentPosition();
-    _placemarks = await placemarkFromCoordinates(
-        _position!.latitude, _position!.longitude);
+    position = await Geolocator.getCurrentPosition();
+    placemarks =
+        await placemarkFromCoordinates(position!.latitude, position!.longitude);
     notifyListeners();
   }
 

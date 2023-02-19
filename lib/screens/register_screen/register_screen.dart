@@ -43,17 +43,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ],
                       ),
                     ),
-                    // Text(
-                    //   "Login Now",
-                    //   style: Theme.of(context).textTheme.headline1,
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 30.h),
-                    //   child: Text(
-                    //     "Please enter the credential below to continue",
-                    //     style: Theme.of(context).textTheme.bodyText2,
-                    //   ),
-                    // ),
                     Text(
                       "Your Email Address",
                       style: Theme.of(context).textTheme.bodyText1,

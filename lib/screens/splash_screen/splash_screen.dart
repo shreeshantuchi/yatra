@@ -1,6 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:yatra/services/auth_services.dart';
 import 'package:yatra/utils/routes.dart';
 import 'package:yatra/widget/background.dart';
 
@@ -49,10 +51,21 @@ class _SplashScreenState extends State<SplashScreen> {
               width: selected ? 20.h : 235.5.w,
               duration: const Duration(seconds: 2),
               onEnd: (() {
-                Future.delayed(
-                    const Duration(seconds: 2),
-                    (() => Navigator.popAndPushNamed(
-                        context, MyRoutes.loginRoute)));
+                Future.delayed(const Duration(seconds: 2), (() async {
+                  if (await context
+                          .read<AuthProvider>()
+                          .storage
+                          .read(key: "jwt") !=
+                      null) {
+                    print(await context
+                        .read<AuthProvider>()
+                        .storage
+                        .read(key: "jwt"));
+                    Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
+                  } else {
+                    Navigator.pushReplacementNamed(context, MyRoutes.landRoute);
+                  }
+                }));
               }),
               child: Image.asset(
                 "assets/logo.png",

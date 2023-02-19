@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:yatra/services/auth_services.dart';
 import 'package:yatra/utils/colors.dart';
 import 'package:yatra/utils/form_style.dart';
 import 'package:yatra/utils/routes.dart';
+import 'package:yatra/widget/alert_dialog.dart';
 import 'package:yatra/widget/background.dart';
 import 'package:yatra/widget/custom-button/custom_button.dart';
 
@@ -12,6 +15,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
     return customBackground(
       child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -56,6 +61,7 @@ class LoginScreen extends StatelessWidget {
                       height: 10.h,
                     ),
                     TextFormField(
+                      controller: _emailController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter an email';
@@ -82,6 +88,7 @@ class LoginScreen extends StatelessWidget {
                       height: 10.h,
                     ),
                     TextFormField(
+                      controller: _passwordController,
                       style: Theme.of(context).textTheme.bodyText1,
                       obscureText: true,
                       decoration: FormStyle.signUpStyle(
@@ -118,9 +125,18 @@ class LoginScreen extends StatelessWidget {
                         text: "Conitinue",
                         textColor: MyColor.blackColor,
                         color: MyColor.whiteColor.withOpacity(0.5),
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, MyRoutes.landRoute);
+                            var jwt = await context.read<AuthProvider>().login(
+                                email: _emailController.text,
+                                password: _passwordController.text);
+
+                            if (jwt != null) {
+                              Navigator.pushNamed(context, MyRoutes.homeRoute);
+                            } else {
+                              print("error");
+                            }
+
                             // Form is valid, process data.
                           }
                         }),
@@ -149,15 +165,23 @@ class LoginScreen extends StatelessWidget {
                       height: 30.h,
                     ),
                     CustomButton(
-                      imgIcon: "assets/google.png",
-                      radius: 30.sp,
-                      borderEnabled: true,
-                      text: "Log in with Google",
-                      textColor: MyColor.whiteColor,
-                      color: Colors.transparent,
-                      onTap: () =>
-                          Navigator.pushNamed(context, MyRoutes.homeRoute),
-                    ),
+                        imgIcon: "assets/google.png",
+                        radius: 30.sp,
+                        borderEnabled: true,
+                        text: "Log in with Google",
+                        textColor: MyColor.whiteColor,
+                        color: Colors.transparent,
+                        onTap: () async {
+                          var jwt = await context.read<AuthProvider>().login(
+                              email: _emailController.text,
+                              password: _passwordController.text);
+
+                          if (jwt != null) {
+                            Navigator.pushNamed(context, MyRoutes.homeRoute);
+                          } else {
+                            print("error");
+                          }
+                        }),
                     SizedBox(
                       height: 48.h,
                     ),

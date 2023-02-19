@@ -26,7 +26,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
   Widget build(BuildContext context) {
     return Container(
       height: widget.height.h,
-      width: MediaQuery.of(context).size.width.w,
+      width: double.infinity,
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: widget.scrollDirection,
@@ -62,13 +62,15 @@ class Cards extends StatelessWidget {
         elevation: 1,
         child: Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.sp),
-              child: Image.asset(
-                imagePath,
-                height: 250.h,
-                width: width.w,
-                fit: BoxFit.cover,
+            Container(
+              height: height.h,
+              width: width.w,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.sp),
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Padding(
@@ -77,7 +79,7 @@ class Cards extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "${context.watch<LocationService>().placemark.last.locality} , \n${context.watch<LocationService>().placemark.last.country}",
+                    "${context.watch<LocationService>().placemarks.last.locality} , \n${context.watch<LocationService>().placemarks.last.country}",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!

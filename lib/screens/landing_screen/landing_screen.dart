@@ -49,7 +49,7 @@ class LandingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CustomButton(
-                        text: "Skip",
+                        text: "Sign Up",
                         onTap: () {},
                         radius: 10,
                         color: Colors.transparent,
@@ -57,9 +57,9 @@ class LandingScreen extends StatelessWidget {
                       ),
                       CustomButton(
                         color: MyColor.whiteColor.withOpacity(0.5),
-                        text: "Next",
+                        text: "Log In",
                         onTap: () {
-                          Navigator.pushNamed(context, MyRoutes.homeRoute);
+                          Navigator.pushNamed(context, MyRoutes.loginRoute);
                         },
                         radius: 30,
                       )

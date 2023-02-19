@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:yatra/screens/home_screen/widget/home_carousel.dart';
+import 'package:yatra/services/auth_services.dart';
 import 'package:yatra/services/location_services.dart';
 import 'package:yatra/utils/colors.dart';
 import 'package:yatra/utils/routes.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return context.watch<LocationService>().placemark.isNotEmpty
+    return context.watch<LocationService>().placemarks.isNotEmpty
         ? Scaffold(
             body: Padding(
               padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 30.h),
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeCarousel(
                       height: 300,
                       imagePaths: widget.imagePaths,
-                      width: MediaQuery.of(context).size.width / 1.12,
+                      width: MediaQuery.of(context).size.width,
                       scrollDirection: Axis.vertical,
                     ),
                   ],
@@ -146,7 +147,20 @@ class WelcomeHeadingText extends StatelessWidget {
         SizedBox(
           width: 20.w,
         ),
-        const Icon(PhosphorIcons.dotsThreeOutlineVerticalBold)
+        GestureDetector(
+            onTap: () async {
+              await context
+                  .read<AuthProvider>()
+                  .storage
+                  .write(key: "jwt", value: null);
+
+              if (await context.read<AuthProvider>().storage.read(key: "jwt") ==
+                  null) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, MyRoutes.landRoute, (route) => false);
+              }
+            },
+            child: const Icon(PhosphorIcons.dotsThreeOutlineVerticalBold))
       ],
     );
   }
@@ -187,6 +201,7 @@ class CurrentLcoation extends StatefulWidget {
 class _CurrentLcoationState extends State<CurrentLcoation> {
   @override
   Widget build(BuildContext context) {
+    print(context.watch<LocationService>().placemarks);
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, MyRoutes.locationRoute),
       child: Row(
@@ -199,7 +214,7 @@ class _CurrentLcoationState extends State<CurrentLcoation> {
             width: 5.w,
           ),
           Text(
-            "${context.watch<LocationService>().placemark.last.locality} , ${context.watch<LocationService>().placemark.last.country}",
+            "${context.watch<LocationService>().placemarks.last.locality} , ${context.watch<LocationService>().placemarks.last.country}",
             style: Theme.of(context)
                 .textTheme
                 .bodyText1!

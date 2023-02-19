@@ -37,8 +37,8 @@ class _LandingCarouselState extends State<LandingCarousel> {
               );
             }),
         Positioned(
-          left: MediaQuery.of(context).size.width.w / 2.8,
-          top: MediaQuery.of(context).size.height.h / 1.35,
+          left: MediaQuery.of(context).size.width.w / 2.8.w,
+          top: MediaQuery.of(context).size.height.h / 1.35.h,
           child: AnimatedSmoothIndicator(
             activeIndex: activeIndex,
             count: 3,
