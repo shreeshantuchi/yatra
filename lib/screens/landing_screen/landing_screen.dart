@@ -28,7 +28,10 @@ class LandingScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Travel Anywhere in Nepal Without Any Hassle",
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -39,7 +42,7 @@ class LandingScreen extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!
-                        .copyWith(fontSize: 20),
+                        .copyWith(fontSize: 20, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(

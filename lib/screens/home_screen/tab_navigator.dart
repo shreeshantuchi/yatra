@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:yatra/screens/guide_screen/guide_screen.dart';
 import 'package:yatra/screens/home_screen/home_screen.dart';
 import 'package:yatra/screens/login_screen/login_screen.dart';
 import 'package:yatra/screens/register_screen/register_screen.dart';
@@ -20,7 +21,7 @@ class TavNavigator extends StatelessWidget {
     else if (tabItem == "Page2")
       child = LoginScreen();
     else if (tabItem == "Page3")
-      child = HomeScreen();
+      child = GuidScreen();
     else if (tabItem == "Page4") child = HomeScreen();
     return Navigator(
       key: navigatorKey,

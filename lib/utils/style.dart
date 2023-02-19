@@ -11,13 +11,13 @@ class Styles {
         color: Colors.black.withOpacity(0.8)),
     bodyText1: GoogleFonts.inter(
         fontSize: 15.sp,
-        color: MyColor.whiteColor,
+        color: MyColor.blackColor,
         fontWeight: FontWeight.w400),
     headline6: GoogleFonts.inter(fontSize: 18.sp, fontWeight: FontWeight.bold),
     headline3: GoogleFonts.inter(fontSize: 30.sp, fontWeight: FontWeight.bold),
     bodyText2: GoogleFonts.inter(
         fontSize: 18.sp,
-        color: MyColor.whiteColor,
+        color: MyColor.blackColor,
         fontWeight: FontWeight.w600),
   );
 }

@@ -11,6 +11,8 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
   final double radius;
   final String imgIcon;
+  final double horizontalPadding;
+  final double height;
 
   const CustomButton({
     super.key,
@@ -21,6 +23,8 @@ class CustomButton extends StatelessWidget {
     this.textColor = Colors.white,
     this.imgIcon = "",
     this.borderEnabled = false,
+    this.horizontalPadding = 50,
+    this.height = 54,
   });
 
   @override
@@ -28,14 +32,14 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 54.h,
+        height: height.h,
         decoration: BoxDecoration(
             border:
                 borderEnabled ? Border.all(color: textColor, width: 1) : null,
             borderRadius: BorderRadius.circular(radius),
             color: color),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 50.w),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding.w),
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
