@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:yatra/repository/api.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -6,10 +7,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'dart:math' show cos, sqrt, asin;
 
 class ProviderMaps with ChangeNotifier {
-  LatLng _initialposition = LatLng(-12.122711, -77.027475);
+  LatLng? _initialposition;
   late LatLng _finalposition;
   late MapController _mapController;
-  LatLng get initialPos => _initialposition;
+  LatLng? get initialPos => _initialposition;
   LatLng get finalPos => _finalposition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
@@ -17,8 +18,50 @@ class ProviderMaps with ChangeNotifier {
   Set<Polyline> get polyline => _polylines;
   String distance = "";
   MapController get mapController => _mapController;
+
   void onCreated(MapController controller) {
     _mapController = controller;
+    notifyListeners();
+  }
+
+  void determinePosition() async {
+    Position position;
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    position = await Geolocator.getCurrentPosition();
+    _initialposition = LatLng(position.latitude, position.longitude);
+
     notifyListeners();
   }
 
@@ -59,14 +102,14 @@ class ProviderMaps with ChangeNotifier {
       }
     }
     List<LatLng>? polylines = await ApiOSRM().getpoints(
-        _initialposition.longitude.toString(),
-        _initialposition.latitude.toString(),
+        _initialposition!.longitude.toString(),
+        _initialposition!.latitude.toString(),
         _finalposition.longitude.toString(),
         _finalposition.latitude.toString());
     createpolyline(polylines!);
     distance = calculatedistance(
-        _initialposition.latitude,
-        _initialposition.longitude,
+        _initialposition!.latitude,
+        _initialposition!.longitude,
         _finalposition.latitude,
         _finalposition.longitude);
     notifyListeners();

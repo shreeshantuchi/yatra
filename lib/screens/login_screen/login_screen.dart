@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:yatra/screens/tab_screen/tab-screen.dart';
 import 'package:yatra/services/auth_services.dart';
 import 'package:yatra/utils/colors.dart';
 import 'package:yatra/utils/form_style.dart';
@@ -186,15 +187,16 @@ class LoginScreen extends StatelessWidget {
                       height: 48.h,
                     ),
                     CustomButton(
-                      imgIcon: "assets/apple.png",
-                      borderEnabled: true,
-                      radius: 30.sp,
-                      text: "Sign up with Apple",
-                      textColor: MyColor.whiteColor,
-                      color: Colors.transparent,
-                      onTap: () =>
-                          Navigator.pushNamed(context, MyRoutes.homeRoute),
-                    ),
+                        imgIcon: "assets/apple.png",
+                        borderEnabled: true,
+                        radius: 30.sp,
+                        text: "Sign up with Apple",
+                        textColor: MyColor.whiteColor,
+                        color: Colors.transparent,
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TabScreen()))),
                   ],
                 ),
               ),

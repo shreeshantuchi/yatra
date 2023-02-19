@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:yatra/constant.dart';
 import 'package:yatra/location/location_provider.dart';
 import 'package:yatra/screens/home_screen/home_screen.dart';
 import 'package:yatra/screens/landing_screen/landing_screen.dart';
@@ -56,13 +58,67 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
             initialRoute: "/",
-            routes: {
-              MyRoutes.splashScreenRoute: (context) => const SplashScreen(),
-              MyRoutes.landRoute: ((context) => const LandingScreen()),
-              MyRoutes.loginRoute: (context) => const LoginScreen(),
-              MyRoutes.homeRoute: ((context) => HomeScreen()),
-              MyRoutes.locationRoute: ((context) => LocationScreen()),
-              MyRoutes.registerRoute: ((context) => const RegisterScreen()),
+            // routes: {
+            //   MyRoutes.splashScreenRoute: (context) => const SplashScreen(),
+            //   MyRoutes.landRoute: ((context) => const LandingScreen()),
+            //   MyRoutes.loginRoute: (context) => const LoginScreen(),
+            //   MyRoutes.homeRoute: ((context) => HomeScreen()),
+            //   MyRoutes.locationRoute: ((context) => LocationScreen()),
+            //   MyRoutes.registerRoute: ((context) => const RegisterScreen()),
+            // },
+
+            onGenerateRoute: (settings) {
+              switch (settings.name) {
+                case MyRoutes.splashScreenRoute:
+                  return PageTransition(
+                    child: const SplashScreen(),
+                    type: PageTransitionType.rightToLeftWithFade,
+                    settings: settings,
+                    duration: const Duration(seconds: smallDuration),
+                  );
+
+                case MyRoutes.landRoute:
+                  return PageTransition(
+                    child: const LandingScreen(),
+                    type: PageTransitionType.rightToLeftWithFade,
+                    settings: settings,
+                    duration: const Duration(seconds: smallDuration),
+                  );
+
+                case MyRoutes.loginRoute:
+                  return PageTransition(
+                    child: const LoginScreen(),
+                    type: PageTransitionType.rightToLeftWithFade,
+                    settings: settings,
+                    duration: const Duration(seconds: smallDuration),
+                  );
+
+                case MyRoutes.homeRoute:
+                  return PageTransition(
+                    child: HomeScreen(),
+                    type: PageTransitionType.rightToLeftWithFade,
+                    settings: settings,
+                    duration: const Duration(seconds: smallDuration),
+                  );
+
+                case MyRoutes.locationRoute:
+                  return PageTransition(
+                    child: LocationScreen(),
+                    type: PageTransitionType.rightToLeftWithFade,
+                    settings: settings,
+                    duration: const Duration(seconds: smallDuration),
+                  );
+
+                case MyRoutes.registerRoute:
+                  return PageTransition(
+                      child: const RegisterScreen(),
+                      type: PageTransitionType.rightToLeftWithFade,
+                      settings: settings,
+                      duration: const Duration(seconds: smallDuration));
+
+                default:
+                  return null;
+              }
             },
           );
         });
