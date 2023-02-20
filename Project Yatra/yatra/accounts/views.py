@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework import generics
+
 
 from .models import Yatri
 
@@ -96,10 +98,18 @@ class SendPasswordResetEmaiView(APIView):
 
 
 
-class YatriView(APIView):
+class YatriView(generics.RetrieveUpdateAPIView):
     renderer_classes =[UserRenderer]
-    permission_classes=[IsAuthenticated]
-    
-    def get(self,request,format=None):
-        serializer=YatriSerializer(request.user)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+    # permission_classes=[IsAuthenticated]
+    serializer_class = YatriSerializer
+    queryset = Yatri.objects.all()
+
+
+
+# To return list
+# class DestinationListView(generics.ListCreateAPIView):
+#     queryset = Destination.objects.all()
+#     serializer_class = DestinationSerializer
+
+# urls
+# path("destination/", DestinationListView.as_view(), name='destination-list')
