@@ -10,7 +10,8 @@ urlpatterns = [
     path('profile/',UserPforileView.as_view(),name="profile"),
     path('changepassword/',UserChangePasswordView.as_view(),name="changepassword"),
     path('send-rest-password-email/',SendPasswordResetEmaiView.as_view(),name="send-rest-password-email"),
-    path('yatri/', YatriView.as_view(), name='yatri-list'),
+
+    path('yatri/<int:pk>/', YatriView.as_view(), name='yatri'),
 
 
 
